@@ -7,7 +7,7 @@ ENV NGINX_PREFIX /opt/openresty/nginx
 ENV VAR_PREFIX /var/nginx
 
 RUN apt-get update \
- && apt-get install -y make gcc curl perli \
+ && apt-get install -y make gcc curl perl \
  && apt-get install -y libreadline-dev libncurses5-dev libpcre3-dev libssl-dev build-essential 
 
 RUN mkdir -p /root/ngx_openresty 
