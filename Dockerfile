@@ -18,7 +18,6 @@ RUN curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.
  && cd openresty-* 
 
 RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
- && echo "using upto $NPROC threads" \
  && ./configure \
     --prefix=$OPENRESTY_PREFIX \
     --http-client-body-temp-path=$VAR_PREFIX/client_body_temp \
