@@ -15,7 +15,7 @@ RUN mkdir -p /root/ngx_openresty
 RUN  cd /root/ngx_openresty 
 
 RUN echo "==> Downloading OpenResty..." \
- && curl -sSL http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
+ && curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
  && cd openresty-* 
 
 RUN echo "==> Configuring OpenResty..." \
