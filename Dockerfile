@@ -14,10 +14,11 @@ RUN mkdir -p /root/ngx_openresty
 
 RUN cd /root/ngx_openresty 
 
-RUN curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
- && cd openresty-*
+RUN curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz 
 
 RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
+
+RUN cd openresty-* \
  && ./configure \
     --prefix=$OPENRESTY_PREFIX \
     --http-client-body-temp-path=$VAR_PREFIX/client_body_temp \
