@@ -12,14 +12,12 @@ RUN apt-get update \
 
 RUN mkdir -p /root/ngx_openresty 
 
-RUN  cd /root/ngx_openresty 
+RUN cd /root/ngx_openresty 
 
-RUN echo "==> Downloading OpenResty..." \
- && curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
+RUN curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
  && cd openresty-* 
 
-RUN echo "==> Configuring OpenResty..." \
- && readonly NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
+RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
  && echo "using upto $NPROC threads" \
  && ./configure \
     --prefix=$OPENRESTY_PREFIX \
@@ -39,13 +37,9 @@ RUN echo "==> Configuring OpenResty..." \
     --without-http_scgi_module \
     -j${NPROC} 
 
-RUN echo "==> Building OpenResty..." \
- && make -j${NPROC} 
+RUN make -j${NPROC} 
 
-RUn echo "==> Installing OpenResty..." \
- && make install 
-
-RUN echo "==> Finishing..." 
+RUN make install 
 
 RUN ln -sf $NGINX_PREFIX/sbin/nginx /usr/local/bin/nginx \
  && ln -sf $NGINX_PREFIX/sbin/nginx /usr/local/bin/openresty \
