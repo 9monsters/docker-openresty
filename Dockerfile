@@ -8,13 +8,16 @@ ENV VAR_PREFIX /var/nginx
 
 RUN apt-get update \
  && apt-get install -y make gcc curl perli \
- && apt-get install -y libreadline-dev libncurses5-dev libpcre3-dev libssl-dev build-essential \
- && mkdir -p /root/ngx_openresty \
- && cd /root/ngx_openresty \
- && echo "==> Downloading OpenResty..." \
+ && apt-get install -y libreadline-dev libncurses5-dev libpcre3-dev libssl-dev build-essential 
+
+RUN mkdir -p /root/ngx_openresty 
+
+RUN  cd /root/ngx_openresty 
+RUN echo "==> Downloading OpenResty..." \
  && curl -sSL http://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
- && cd openresty-* \
- && echo "==> Configuring OpenResty..." \
+ && cd openresty-* 
+
+RUN echo "==> Configuring OpenResty..." \
  && readonly NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
  && echo "using upto $NPROC threads" \
  && ./configure \
@@ -33,24 +36,24 @@ RUN apt-get update \
     --without-http_userid_module \
     --without-http_uwsgi_module \
     --without-http_scgi_module \
-    -j${NPROC} \
- && echo "==> Building OpenResty..." \
- && make -j${NPROC} \
- && echo "==> Installing OpenResty..." \
- && make install \
- && echo "==> Finishing..." \
- && ln -sf $NGINX_PREFIX/sbin/nginx /usr/local/bin/nginx \
+    -j${NPROC} 
+
+RUN echo "==> Building OpenResty..." \
+ && make -j${NPROC} 
+
+RUn echo "==> Installing OpenResty..." \
+ && make install 
+
+RUN echo "==> Finishing..." 
+
+RUN ln -sf $NGINX_PREFIX/sbin/nginx /usr/local/bin/nginx \
  && ln -sf $NGINX_PREFIX/sbin/nginx /usr/local/bin/openresty \
  && ln -sf $OPENRESTY_PREFIX/bin/resty /usr/local/bin/resty \
  && ln -sf $OPENRESTY_PREFIX/luajit/bin/luajit-* $OPENRESTY_PREFIX/luajit/bin/lua \
  && ln -sf $OPENRESTY_PREFIX/luajit/bin/luajit-* /usr/local/bin/lua \
- && apt-get remove  build-deps \
- && apk-get install  \
-    libpcrecpp libpcre16 libpcre32 openssl libssl1.0 pcre libgcc libstdc++ \
- && rm -rf /var/cache/apk/* \
  && rm -rf /root/ngx_openresty
 
-
+RUN apt-get autoclean && apt-get autoremove
 WORKDIR $NGINX_PREFIX/
 
 ONBUILD RUN rm -rf conf/* html/*
