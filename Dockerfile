@@ -7,14 +7,14 @@ ENV NGINX_PREFIX /opt/openresty/nginx
 ENV VAR_PREFIX /var/nginx
 
 RUN apt-get update \
- && apt-get install -y make gcc curl perl \
+ && apt-get install -y make gcc curl wget perl \
  && apt-get install -y libreadline-dev libncurses5-dev libpcre3-dev libssl-dev build-essential 
 
 RUN mkdir -p /root/ngx_openresty 
 
 RUN cd /root/ngx_openresty 
 
-RUN curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz 
+RUN wget https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz 
 
 RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 
