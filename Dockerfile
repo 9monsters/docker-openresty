@@ -15,7 +15,7 @@ RUN mkdir -p /root/ngx_openresty
 RUN cd /root/ngx_openresty 
 
 RUN curl -sSL https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz | tar -xvz \
- && cd ngx_* 
+ && cd openresty-*
 
 RUN NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
  && ./configure \
